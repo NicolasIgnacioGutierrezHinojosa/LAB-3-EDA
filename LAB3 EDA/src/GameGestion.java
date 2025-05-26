@@ -326,7 +326,7 @@ public class GameGestion {
                 this.sortedByAttribute = attribute;
 
             } else if (algorithm.equals("quickSort")) { //quickSort selector
-                quickSort(data, 0, data.size() - 1, attribute);
+                quickSort(data,0, data.size() - 1, attribute);
                 this.sortedByAttribute = attribute;
             } else { //Collections.sort()
                 if (!attribute.equals("category") && !attribute.equals("quality")) { //SortPrice
@@ -343,7 +343,113 @@ public class GameGestion {
         }
     }
 
+    public class GenerateData{
+
+    }
+
     public static void main(String[] args) {
-        System.out.println("diavlo");
+        Scanner sc = new Scanner(System.in);
+        ArrayList<Game> data = new ArrayList<>();
+        Dataset DataSeted;
+
+        while (true) {
+            System.out.println("\n=== Menú ===");
+            System.out.println("1. Generar Datos de Dataset");
+            System.out.println("2. Usar Dataset");
+            System.out.println("3. Obtener juegos de precio especifico");
+            System.out.println("4. Obtener juegos por rango de precios");
+            System.out.println("5. Obtener juegos por categoria");
+            System.out.println("6. Obtener juegos por calidad");
+            System.out.println("7. Ordenar Dataset");
+            System.out.println("0. Salir");
+            System.out.print("Opción: ");
+            int opcion = sc.nextInt();
+            sc.nextLine();
+
+            switch (opcion) {
+                case 1:
+                    //usar GenerateData (y que guarde el dataset creado en un texto) por ci a caso pesca la carpeta del proyecto (LAB3 EDA) desde git, no solo el codigo
+                    //porque estaba viendo y cuando lo guardas en texto, se guarda en la carpeta src del proyecto
+                    break;
+                case 2:
+                    //el usuario elije el archivo de dataset
+                    //define a data = (archivo elejido)
+                    DataSeted = new Dataset(data);
+                    break;
+                case 3: //falta poner que imprima cuanto se demora en buscar nomas
+                    System.out.println("Ingrese precio a buscar: ");
+                    int price = sc.nextInt();
+                    ArrayList<Game> a = DataSeted.getGamesByPrice(price);
+                    break;
+                case 4: //falta poner que imprima cuanto se demora en buscar nomas
+                    System.out.println("Ingrese precio minimo a buscar: ");
+                    int priceMin = sc.nextInt();
+                    System.out.println("Ingrese precio maximo a buscar: ");
+                    int priceMax = sc.nextInt();
+                    ArrayList<Game> a = DataSeted.getGamesByPriceRange(priceMin, priceMax);
+                    break;
+                case 5: //falta poner que imprima cuanto se demora en buscar nomas
+                    System.out.println("Ingrese categoria a buscar: ");
+                    String category = sc.nextLine();
+                    ArrayList<Game> a = DataSeted.getGamesByCategory(category);
+                    break;
+                case 6: //falta poner que imprima cuanto se demora en buscar nomas
+                    System.out.println("Ingrese calidad a buscar (0-100): ");
+                    int quality = sc.nextInt();
+                    ArrayList<Game> a = DataSeted.getGamesByQuality(quality);
+                    break;
+                case 7: //falta poner que imprima cuanto se demora en ordenar nomas
+                    System.out.println("\n=== Atributo a ordenar ===");
+                    System.out.println("1. Price (otro)");
+                    System.out.println("2. Category");
+                    System.out.println("3. Quality");
+                    System.out.print("Opción: ");
+                    int atributeOpcion = sc.nextInt();
+                    sc.nextLine();
+                    String attribute = switch (atributeOpcion){
+                        case 1 -> "price";
+                        case 2 -> "category";
+                        case 3 -> "quality";
+                        default -> {
+                            System.out.println("Opción inválida.");
+                            yield null;
+                        }
+                    };
+                    if (attribute.isEmpty()) {
+                        break;
+                    }
+                    System.out.println("\n=== Algoritmo a usar ===");
+                    System.out.println("1. Bubble Sort");
+                    System.out.println("2. Insertion Sort");
+                    System.out.println("3. Selection Sort");
+                    System.out.println("4. Merge Sort");
+                    System.out.println("5. Quick Sort");
+                    System.out.println("0. Salir");
+                    System.out.print("Opción: ");
+                    int algorithmOpcion = sc.nextInt();
+                    String algorithm = switch (algorithmOpcion) {
+                        case 1 -> "bubbleSort";
+                        case 2 -> "insertionSort";
+                        case 3 -> "selectionSort";
+                        case 4 -> "mergeSort";
+                        case 5 -> "quickSort";
+                        default -> {
+                            System.out.println("Opción inválida.");
+                            yield null;
+                        }
+                    };
+                    if (algorithm.isEmpty()) {
+                        break;
+                    }
+                    DataSeted.sortByAlgorithm(algorithm, attribute);
+                    System.out.println("\nOrdenado por: " +attribute + "\n Utilizando: " + algorithm);
+                    break;
+                case 0:
+                    System.out.println(" Saliendo...");
+                    return;
+                default:
+                    System.out.println("Opción inválida.");
+            }
+        }
     }
 }
